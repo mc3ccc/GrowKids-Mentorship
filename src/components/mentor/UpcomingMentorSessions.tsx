@@ -1,42 +1,46 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Clock, Video, Calendar, Lock } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Clock, Video, Calendar, User } from 'lucide-react';
 
-interface UpcomingScheduleProps {
-  hasSubscription?: boolean;
-}
-
-export const UpcomingSchedule = ({ hasSubscription = false }: UpcomingScheduleProps) => {
-  const upcomingSessions = [
+export const UpcomingMentorSessions = () => {
+  const sessions = [
     {
       id: 1,
-      title: 'Weekly Check-in',
+      title: 'Career Planning Session',
+      mentee: 'Alex Thompson',
       date: 'Today',
       time: '2:00 PM',
+      duration: '60 min',
       type: 'Video Call',
-      duration: '30 min',
-      isPremium: false
+      status: 'Confirmed'
     },
     {
       id: 2,
-      title: 'Code Review Session',
+      title: 'Code Review & Feedback',
+      mentee: 'Jamie Chen',
       date: 'Tomorrow',
       time: '10:00 AM',
-      type: 'Video Call',
       duration: '45 min',
-      isPremium: true
+      type: 'Video Call',
+      status: 'Pending'
     },
     {
       id: 3,
-      title: 'Career Planning',
+      title: 'Goal Setting Workshop',
+      mentee: 'Morgan Davis',
       date: 'Friday',
       time: '3:30 PM',
+      duration: '30 min',
       type: 'Video Call',
-      duration: '60 min',
-      isPremium: true
+      status: 'Confirmed'
     }
   ];
+
+  const getStatusBadgeVariant = (status: string) => {
+    return status === 'Confirmed' ? 'default' : 'secondary';
+  };
 
   return (
     <Card>
@@ -45,22 +49,11 @@ export const UpcomingSchedule = ({ hasSubscription = false }: UpcomingSchedulePr
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {upcomingSessions.map((session) => (
-            <div 
-              key={session.id} 
-              className={`flex items-center space-x-3 p-3 rounded-lg ${
-                session.isPremium && !hasSubscription 
-                  ? 'bg-muted/30 opacity-60' 
-                  : 'bg-muted/50'
-              }`}
-            >
+          {sessions.map((session) => (
+            <div key={session.id} className="flex items-center space-x-3 p-3 bg-muted/50 rounded-lg">
               <div className="flex-shrink-0">
                 <div className="h-8 w-8 bg-primary/10 rounded-full flex items-center justify-center">
-                  {session.isPremium && !hasSubscription ? (
-                    <Lock className="h-4 w-4 text-muted-foreground" />
-                  ) : (
-                    <Video className="h-4 w-4 text-primary" />
-                  )}
+                  <Video className="h-4 w-4 text-primary" />
                 </div>
               </div>
               <div className="flex-1 min-w-0">
@@ -68,13 +61,15 @@ export const UpcomingSchedule = ({ hasSubscription = false }: UpcomingSchedulePr
                   <p className="text-sm font-medium text-foreground truncate">
                     {session.title}
                   </p>
-                  {session.isPremium && (
-                    <Badge variant="outline" className="text-xs">
-                      Premium
-                    </Badge>
-                  )}
+                  <Badge variant={getStatusBadgeVariant(session.status)} className="text-xs">
+                    {session.status}
+                  </Badge>
                 </div>
-                <div className="flex items-center space-x-4 text-xs text-muted-foreground mt-1">
+                <div className="flex items-center space-x-4 text-xs text-muted-foreground">
+                  <div className="flex items-center">
+                    <User className="h-3 w-3 mr-1" />
+                    {session.mentee}
+                  </div>
                   <div className="flex items-center">
                     <Calendar className="h-3 w-3 mr-1" />
                     {session.date}
@@ -86,6 +81,9 @@ export const UpcomingSchedule = ({ hasSubscription = false }: UpcomingSchedulePr
                   <span>{session.duration}</span>
                 </div>
               </div>
+              <Button size="sm" variant="outline">
+                Join
+              </Button>
             </div>
           ))}
         </div>

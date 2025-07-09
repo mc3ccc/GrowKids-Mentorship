@@ -2,9 +2,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Star, MapPin, Briefcase } from 'lucide-react';
+import { Star, MapPin, Briefcase, Lock } from 'lucide-react';
 
-export const MentorInfo = () => {
+interface MentorInfoProps {
+  hasSubscription?: boolean;
+}
+
+export const MentorInfo = ({ hasSubscription = false }: MentorInfoProps) => {
   return (
     <Card>
       <CardHeader>
@@ -43,7 +47,14 @@ export const MentorInfo = () => {
             <Badge variant="secondary">React</Badge>
             <Badge variant="secondary">Node.js</Badge>
             <Badge variant="secondary">Career Growth</Badge>
-            <Badge variant="secondary">Leadership</Badge>
+            {hasSubscription ? (
+              <Badge variant="secondary">Leadership</Badge>
+            ) : (
+              <Badge variant="outline" className="opacity-50">
+                <Lock className="h-3 w-3 mr-1" />
+                Premium
+              </Badge>
+            )}
           </div>
         </div>
 
