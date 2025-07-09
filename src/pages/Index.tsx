@@ -1,8 +1,8 @@
 
-import VideoGenerator from '@/components/VideoGenerator';
+import MenteeDashboard from '@/components/MenteeDashboard';
 
 const Index = () => {
-  return <VideoGenerator />;
+  return <MenteeDashboard />;
 };
 
 export default Index;
