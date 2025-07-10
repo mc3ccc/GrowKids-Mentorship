@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -8,6 +7,12 @@ import Index from "./pages/Index";
 import MentorDashboard from "./pages/MentorDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
+import { PrimaryNavigation } from '@/components/layout/PrimaryNavigation';
+import Homepage from "./pages/Homepage";
+import MeetFounder from "./pages/MeetFounder";
+import AboutUs from "./pages/AboutUs";
+import ContactUs from "./pages/ContactUs";
+import AuthPage from "./pages/AuthPage";
 
 const queryClient = new QueryClient();
 
@@ -17,8 +22,13 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <PrimaryNavigation />
         <Routes>
-          <Route path="/" element={<Index />} />
+          <Route path="/" element={<Homepage />} />
+          <Route path="/meet-founder" element={<MeetFounder />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/contact" element={<ContactUs />} />
+          <Route path="/auth" element={<AuthPage />} />
           <Route path="/mentor" element={<MentorDashboard />} />
           <Route path="/admin" element={<AdminDashboard />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
