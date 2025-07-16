@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
+import { isAdmin } from '../lib/auth';
 
 const AdminLogin = () => {
     const [email, setEmail] = useState('');
@@ -18,8 +19,13 @@ const AdminLogin = () => {
         if (error) {
             setError(error.message);
         } else {
-            // Redirect to admin dashboard on successful login
-            window.location.href = '/admin';
+            const admin = await isAdmin();
+            if (admin) {
+                window.location.href = '/admin';
+            } else {
+                setError('You do not have administrative privileges.');
+                await supabase.auth.signOut();
+            }
         }
     };
 
