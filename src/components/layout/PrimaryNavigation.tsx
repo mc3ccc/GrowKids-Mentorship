@@ -21,6 +21,7 @@ export const PrimaryNavigation = () => {
     { label: 'Meet Founder', path: '/meet-founder' },
     { label: 'About Us', path: '/about' },
     { label: 'Contact Us', path: '/contact' },
+    { label: 'Profile', path: '/profile' },
   ];
 
   return (

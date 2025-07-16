@@ -13,6 +13,8 @@ import MeetFounder from "./pages/MeetFounder";
 import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
 import AuthPage from "./pages/AuthPage";
+import UserProfile from "./pages/UserProfile";
+import SessionDetails from "./pages/SessionDetails";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +33,8 @@ const App = () => (
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/mentor" element={<MentorDashboard />} />
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/profile" element={<UserProfile />} />
+          <Route path="/session/:sessionId" element={<SessionDetails />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
