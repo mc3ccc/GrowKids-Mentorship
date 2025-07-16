@@ -5,6 +5,7 @@ create table profiles (
   username text unique,
   avatar_url text,
   website text,
+  role text default 'user',
 
   primary key (id),
   unique(username),
@@ -43,3 +44,10 @@ create policy "Avatar images are publicly accessible."
 create policy "Anyone can upload an avatar."
   on storage.objects for insert
   with check ( bucket_id = 'avatars' );
+
+-- Grant admin privileges to admin@growkids.com
+update profiles
+set role = 'admin'
+where id = (
+  select id from auth.users where email = 'admin@growkids.com'
+);
