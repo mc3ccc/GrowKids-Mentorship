@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabaseClient';
 import { isAdmin } from '../lib/auth';
 
@@ -6,10 +7,13 @@ const AdminLogin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
+        setLoading(true);
 
         const { error } = await supabase.auth.signInWithPassword({
             email,
@@ -18,14 +22,16 @@ const AdminLogin = () => {
 
         if (error) {
             setError(error.message);
+            setLoading(false);
         } else {
             const admin = await isAdmin();
             if (admin) {
-                window.location.href = '/admin';
+                navigate('/admin');
             } else {
                 setError('You do not have administrative privileges.');
                 await supabase.auth.signOut();
             }
+            setLoading(false);
         }
     };
 
@@ -45,7 +51,9 @@ const AdminLogin = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <button type="submit">Login</button>
+                <button type="submit" disabled={loading}>
+                    {loading ? 'Logging in...' : 'Login'}
+                </button>
                 {error && <p>{error}</p>}
             </form>
         </div>
