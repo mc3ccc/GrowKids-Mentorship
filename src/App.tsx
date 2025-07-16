@@ -16,8 +16,30 @@ import UserProfile from "./pages/UserProfile";
 import SessionDetails from "./pages/SessionDetails";
 import AdminLogin from "./pages/AdminLogin";
 import { useSession } from "@supabase/auth-helpers-react";
+import { isAdmin } from "./lib/auth";
+import { useEffect, useState } from "react";
 
 const queryClient = new QueryClient();
+
+const AdminRoute = ({ element }: { element: React.ReactNode }) => {
+  const [isAdminUser, setIsAdminUser] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkAdmin = async () => {
+      const admin = await isAdmin();
+      setIsAdminUser(admin);
+      setLoading(false);
+    };
+    checkAdmin();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  return isAdminUser ? <>{element}</> : <NotFound />;
+};
 
 const App = () => {
   const session = useSession();
@@ -38,7 +60,13 @@ const App = () => {
             <Route path="/mentor" element={<MentorDashboard />} />
             <Route
               path="/admin"
-              element={session ? <AdminDashboard /> : <AdminLogin />}
+              element={
+                session ? (
+                  <AdminRoute element={<AdminDashboard />} />
+                ) : (
+                  <AdminLogin />
+                )
+              }
             />
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/session/:sessionId" element={<SessionDetails />} />
